@@ -1,26 +1,64 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import '../node_modules/bulma/css/bulma.css'
+import List from "./components/list/list";
+import Filters from './components/filters/filters'
+import Navbar from './components/navbar/navbar';
+import { store } from './store/store'
+import { MessageInterface } from './interfaces'
+import { addMessage } from './store/actions';
+import Messages from './components/messages/messages';
+export default class App extends React.Component<any, { messages: MessageInterface[], unsubscribe: any }> {
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      messages: [],
+      unsubscribe: ''
+    }
+
+
+  }
+
+  componentDidMount() {
+    const unsubscribe = store.subscribe(() => {
+      let messages = store.getState().messages
+      this.setState({
+        messages: messages
+      })
+    })
+    this.setState({
+      unsubscribe: unsubscribe
+    })
+  }
+
+  addMEssage = () => {
+    store.dispatch(addMessage({ title: 'test', type: 'is-success', message: 'test', msgKey: '' }))
+  }
+
+  componentWillUnmount() {
+    this.state.unsubscribe.unsubscribe()
+  }
+  render() {
+
+    let messages = this.state.messages
+    return (
+
+      <div className="App">
+        <Navbar></Navbar>
+
+        <div className="app-title">
+          <h1 className="title">
+            Order Tracking
+      </h1>
+
+        </div>
+        <Filters></Filters>
+        <List orders={[]} />
+        <Messages messages={messages}></Messages>
+      </div>
+    );
+  }
 }
 
-export default App;
+

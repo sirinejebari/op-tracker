@@ -1,0 +1,45 @@
+.item{
+    text-align: start;
+    padding: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: 1px solid #d6d6d6;
+   
+}
+.animate{
+ background-color:rgba(242, 245, 169, 1);
+    animation: fade 5s forwards;
+    
+}
+.exception{
+    color: #ff3860
+}
+.delivered{
+    color: #00c4a7
+}
+.dark {
+    background-color: lightgray
+}
+@keyframes fade {
+    from {background-color:rgba(242, 245, 169, 1);}
+    to {background-color:rgba(242, 245, 169, 0);}
+}
+
+.item:hover{
+   background-color: #9c9c9c;
+    font-weight: bolder;
+    border-bottom: 1px solid #9c9c9c;
+}
+
+.reference{
+    width: 10%
+}
+.date-updated, .operator, .status{
+    width: 15%;
+}
+
+.description{
+    width: 25%;
+}
