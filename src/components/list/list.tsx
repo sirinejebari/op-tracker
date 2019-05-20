@@ -69,12 +69,6 @@ export default class ItemsList extends React.Component<any, {
       s.close()
     }
   }
-  groupBy = (xs: any, key: any) => {
-    return xs.reduce((rv: any, x: any) => {
-      (rv[x[key]] = rv[x[key]] || []).push(x);
-      return rv;
-    }, {});
-  };
 
   formatAndSendEvent = (event: ServerEvent) => {
     let currentItems = this.state.items;
@@ -98,7 +92,7 @@ export default class ItemsList extends React.Component<any, {
   }
 
   componentWillUnmount(){
-    this.state.unsubscribe.unsubscribe()
+    this.state.unsubscribe()
   }
 
   render() {

@@ -37,7 +37,7 @@ export default class App extends React.Component<any, { messages: MessageInterfa
   }
 
   componentWillUnmount() {
-    this.state.unsubscribe.unsubscribe()
+    this.state.unsubscribe()
   }
   render() {
 
