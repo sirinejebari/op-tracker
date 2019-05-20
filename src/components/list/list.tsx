@@ -5,12 +5,13 @@ import { store } from '../../store/store';
 import moment from 'moment'
 import {ServerEvent, FiltersInterface} from '../../interfaces';
 import { addMessage } from '../../store/actions';
-let apiConfig = require('../../api-config.json')
+const apiConfig = require('../../api-config.json')
+
 export default class ItemsList extends React.Component<any, {
   counter: number,
   items: { [key: string]: ServerEvent },
   filters: FiltersInterface,
-  unsubscribe: any
+  listener: any
 }> {
 
   constructor(props: any) {
@@ -23,20 +24,12 @@ export default class ItemsList extends React.Component<any, {
         reference: '',
         operator: ''
       },
-      unsubscribe: ''
+      listener: null
     }
-   
-
-    this.establishConnection()
-
   }
 
   componentDidMount(){
-    const unsubscribe = store.subscribe(() => {
-      this.setState({
-        unsubscribe: unsubscribe
-      })
-    });
+    this.establishConnection()
   }
 
   handleIncomingMessage = (event: any) => {
@@ -53,7 +46,7 @@ export default class ItemsList extends React.Component<any, {
   };
 
   establishConnection = () => {
-    let s = new EventSource(apiConfig.url)
+    let s = new EventSource(apiConfig.url, {withCredentials: false})
 
     s.onmessage = this.handleIncomingMessage
 
@@ -61,13 +54,17 @@ export default class ItemsList extends React.Component<any, {
       store.dispatch(addMessage({ title: 'Success', message: `Connexion established to ${apiConfig.url}`, type: 'is-link', msgKey: '' }))
     }
 
-    s.onerror = (e) => {
+    s.onerror = () => {
       setTimeout(() => {
         this.establishConnection()
       }, 5000) // try again in 5 seconds
       store.dispatch(addMessage({ title: 'Connexion error', message: 'Cannot establish connexion with API, will try again in 5 seconds ', type: 'is-danger', msgKey: '' }))
       s.close()
     }
+
+    this.setState({
+      listener: s
+    })
   }
 
   formatAndSendEvent = (event: ServerEvent) => {
@@ -92,9 +89,8 @@ export default class ItemsList extends React.Component<any, {
   }
 
   componentWillUnmount(){
-    this.state.unsubscribe()
+    this.state.listener.close()
   }
-
   render() {
     let groupedItems = Object.values(this.state.items).sort(this.compare)
     let filters = this.state.filters;
