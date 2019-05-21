@@ -46,12 +46,10 @@ export default class App extends React.Component<any, { messages: MessageInterfa
 
       <div className="App">
         <Navbar></Navbar>
-
         <div className="app-title">
           <h1 className="title">
             Order Tracking
-      </h1>
-
+          </h1>
         </div>
         <Filters></Filters>
         <List orders={[]} />
