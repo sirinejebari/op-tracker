@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`render with the right classes: delivered 1`] = `
+exports[`bla render with the right classes: delivered 1`] = `
 <div
   className="item animate   delivered light"
 >
@@ -51,7 +51,7 @@ exports[`render with the right classes: delivered 1`] = `
 </div>
 `;
 
-exports[`render with the right classes: exception 1`] = `
+exports[`bla render with the right classes: exception 1`] = `
 <div
   className="item animate  exception  light"
 >

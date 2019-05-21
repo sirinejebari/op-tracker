@@ -11,6 +11,8 @@
     "@types/react": "^16.8.17",
     "@types/react-dom": "^16.8.4",
     "bulma": "^0.7.4",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.1",
     "eventsourcemock": "^2.0.0",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
